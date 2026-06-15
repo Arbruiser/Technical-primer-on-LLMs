@@ -1,24 +1,21 @@
-# LUMI AI Factory — Branded Learning Template
+# A Technical Primer on Large Language Models
 
-This is a template for creating clean, branded self-learning course sites for the **LUMI AI Factory**. The site:
+This repository contains a comprehensive technical onboarding guide for users deploying open-weight Large Language Models (LLMs) on the **LUMI supercomputer**.
 
-- has the LUMI AI Factory branding and colours;
-- has light and dark mode (auto-follows the visitor's system, with a manual toggle);
-- supports headings, lists, tables, code blocks with syntax highlighting and copy-to-clipboard, math (KaTeX), images, embedded videos, and four branded callout types;
-- can be edited just by adding/editing `.md` files in the `content/` folder;
-- can be built and published on [GitHub Pages].
+The guide serves as an educational resource to bridge the gap between high-level AI concepts and the hardware realities of running models at scale on AMD MI250X GPUs. The content is fairly technical—diving into how architectures and hardware interact—but it avoids getting bogged down in overly complex, low-level code implementations. It's the perfect middle ground for understanding *how* things work under the hood without needing to be an expert in machine learning engineering.
 
-## Quick start
+## 📖 What's Inside
 
-1. Click **[Use this template]** at the top of this repository to make your own copy. Name it after your study materials.
-2. In your new repository, go to **Settings → Pages → Build and deployment → Source** and select **GitHub Actions**.
-3. Click the gear icon ⚙ next to **About** on the right side of your repo, tick **Use your GitHub Pages website**, and click **Save**. The live link now appears at the top right of the repo.
-4. Make and commit any change to `content/index.md` and your website will be "built and deployed". In a minute, when the yellow circle next to your name in the repo has changed from a yellow circle to a green tick (refresh the page), you can access your website via the link that appeared in Step 3.
-5. Edit `content/index.md` and add your content. To force refresh the website page (to tell your browser not to use the cached version), press ctrl + F5 on Linux and Windows, or Cmd + Shift + R on Mac. 
+The primer covers the critical architectural and infrastructure concepts needed to successfully run inference and fine-tuning workloads:
 
-Every push a commit to your repository, the website is rebuilt and redeployed automatically (can take a minute).
+* **Open-Weight Models:** Understanding parameter counts, benchmarks, and the difference between Base and Instruct (Chat) models.
+* **Architectures:** The performance and memory trade-offs between Dense models (e.g., Llama 3) and Mixture of Experts (MoE) models (e.g., Qwen3.6, Mixtral).
+* **Under the Hood:** How Attention mechanisms work (MHA, MQA, GQA) and the critical role of the KV Cache in VRAM.
+* **Inference at Scale:** Hardware bottlenecks (Compute vs. Memory Bandwidth), text generation parameters, and why **vLLM** is the recommended engine on LUMI.
+* **Multi-GPU Strategies:** When and how to use Tensor Parallelism (TP), Pipeline Parallelism (PP), and Data Parallelism (DP).
+* **Customizing Models:** A technical comparison of Full-Parameter Fine-Tuning, PEFT/LoRA, Quantization, and RAG (Retrieval-Augmented Generation).
+* **LUMI Hardware Sizing:** Practical rules of thumb for calculating VRAM requirements and requesting the correct number of GCDs.
 
-The demo with examples of how to add content and new pages can be found in `content/index.md`
+## 🎯 Target Audience
 
-[GitHub Pages]: https://docs.github.com/en/pages
-[use this template]: https://github.com/Arbruiser/LUMI_AIF_template/generate
+This guide is written for those who are already comfortable with the high-level, non-technical basics of Large Language Models (like what a prompt is or how chatbots work) and are ready to look beneath the surface. If you want a solid technical understanding of how these models actually operate on supercomputer hardware—without getting lost in the weeds of complex machine learning code—this guide is for you.

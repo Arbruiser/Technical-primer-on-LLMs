@@ -189,10 +189,6 @@ If you want your model to answer questions based on your private data, fine-tuni
 
 ## 📐 Sizing Your Workload for LUMI
 
-<figure>
-  <img src="./assets/lumi-sample.jpg" alt="LUMI compute node" style="width: 80%; max-width: 100%; margin: 0 auto; display: block;" />
-</figure>
-
 Now for the practical part: how do you figure out how many GCDs to request for your specific model?
 
 ### Inference Memory (Rule of Thumb)
