@@ -14,24 +14,24 @@ You are likely already familiar with proprietary language models like OpenAI's G
 When you hear names like **Llama 3** (by Meta), **Mistral**, or **Qwen**, these are all highly capable open-weight% alternatives. Because their underlying weights are publicly available, you are not restricted by API limits, vendor lock-in, or data privacy concerns—you can fine-tune% and test them securely and privately on LUMI's hardware.
 
 **Understanding Parameters.**
-When you host your own models, you must understand their hardware requirements. The "Large" in LLM refers to the number of **parameters%** — the numerical values (weights) the model learned during training. Think of parameters as the model's "memory" of patterns in language. A 70-billion-parameter model has learned 70 billion individual numbers that, together, allow it to generate coherent outputs.
+When you host your own models, you must understand their hardware requirements. The "Large" in LLM refers to the number of **parameters%** — the numerical values (weights) the model learned during training. Parameters% essentially act as the model's "memory" of patterns in language. A 70-billion-parameter model has learned 70 billion individual numbers that, together, allow it to generate coherent outputs.
 
 **Why does size matter?** Generally, more parameters mean more capability — the model can handle more nuanced tasks and retain more knowledge. But more parameters% also mean more memory and more compute power to run. This is exactly why you need a supercomputer like LUMI.
 
 **Is size everything?** While parameter count is a useful metric, it is not the only factor that determines a model's quality. AI research moves incredibly fast, and very recent models often vastly outperform older models of the exact same size due to better training data and improved architectures.
 
 **The Benchmark Problem.**
-Defining "model quality" is notoriously complex. There is a myriad of different benchmarks (like SWE Bench, Humanity's Last Exam, or MMMLU) that test everything from agentic coding to multilingual reasoning to data analysis. However, no single benchmark tells the whole story, and many are flawed:
+Defining "model quality" is notoriously complex. There is a myriad of benchmarks (like SWE Bench, Humanity's Last Exam, or MMMLU) that test everything from agentic coding to multilingual reasoning to data analysis. However, no single benchmark tells the whole story, and many are flawed:
 
-- **Data Contamination:** Because LLMs are trained on internet data, the answers to benchmark tests are often accidentally included in their training data. This means the model may have "memorized" the test rather than learning to reason.
-- **Over-optimization:** When a specific benchmark becomes popular, researchers optimize their models specifically to score well on it, even if the model's real-world quality suffers.
-- **Subjective "Vibes":** A model might score perfectly on a standardized test but feel stiff, overly formal, or unhelpful in actual interactions. Ultimately, the only true test of model quality is running it against your specific domain use-case.
+- **Data Contamination:** Because LLMs are trained on internet data, the answers to benchmark tests are often accidentally or intentionally included in their training data. This means the model may have "memorised" the test rather than learning to reason.
+- **Over-optimisation:** When a specific benchmark becomes popular, researchers optimise their models specifically to score well on it, even if the model's real-world quality suffers.
+- **Subjective "Vibes":** A model might score perfectly on a standardised test but feel stiff, overly formal, or unhelpful in actual interactions. Ultimately, the only true test of model quality is running it against your specific domain use-case.
 
 ### Base vs. Instruct Models
 When browsing repositories like Hugging Face, you will often see two versions of the same model: a **Base%** model and an **Instruct%** (or Chat) model. Both models ultimately have the exact same goal: to predict the most likely next token. The difference lies entirely in the data they were trained on to learn that prediction:
 
-- **Base% Models:** These models undergo an initial, massive pre-training phase where they "read" vast amounts of raw text from the internet. Because their training data is just internet text, their only behavior is to continue a pattern. If you prompt a Base% model with *"The capital of France is"*, it will correctly answer *"Paris"*. But if you prompt it with *"What is the capital of France?"*, it might just continue the pattern of questions and output *"What is the capital of Germany? What is the capital of Ukraine?"*. Base% models are raw pattern-matchers, typically used as a starting point for your own fine-tuning%.
-- **Instruct% (Chat) Models:** These are Base% models that have undergone an additional training phase (called **Alignment%**) to teach them how to act as a helpful assistant. They are post-trained on highly curated datasets of question-response pairs and instruction-following examples. Modern models usually achieve this through a technique called **DPO%** (Direct Preference Optimization). In DPO%, the model is trained on datasets where humans have evaluated two possible answers to a question; the model is then mathematically rewarded for generating the human-preferred answer and penalized for the rejected one. Unless you are intentionally fine-tuning% a model from scratch, you should almost always download the Instruct% version.
+- **Base% Models:** These models undergo an initial, massive pre-training phase where they "read" vast amounts of raw text from the internet. Because their training data is just internet text, their only behaviour is to continue a pattern. If you prompt a Base% model with *"The capital of France is"*, it will correctly answer *"Paris"*. But if you prompt it with *"What is the capital of France?"*, it might just continue the pattern of questions and output *"What is the capital of Germany? What is the capital of Ukraine?"*. Base% models are raw pattern-matchers, typically used as a starting point for your own fine-tuning%.
+- **Instruct% (Chat) Models:** These are Base% models that have undergone an additional training phase (called **Alignment%**) to teach them how to act as a helpful assistant. They are post-trained on highly curated datasets of question-response pairs and instruction-following examples. Modern models usually achieve this through a technique called **DPO%** (Direct Preference Optimisation). In DPO%, the model is trained on datasets where humans have evaluated two possible answers to a question; the model is then mathematically rewarded for generating the human-preferred answer and penalised for the rejected one. Unless you are intentionally fine-tuning% a model from scratch, you should almost always download the Instruct% version.
 
 
 ## 🏗️ 2. How Models Work (Architecture & Memory)
@@ -71,7 +71,7 @@ During text generation, the model stores the context of all previously generated
 When the model needs to generate a new token (acting as the **Query**, or *"What am I looking for?"*), it checks its Query against the Keys in the cache to extract the right Values. 
 
 **Types of Attention Architectures.**
-Over the years, researchers have developed different versions of attention to optimize how these Heads and the KV Cache work together, balancing reasoning quality against GPU memory efficiency:
+Over the years, researchers have developed different versions of attention to optimise how these Heads and the KV Cache work together, balancing reasoning quality against GPU memory efficiency:
 
 | Type | How It Works | Memory Use | Used By |
 | :--- | :--- | :--- | :--- |
@@ -83,7 +83,7 @@ Over the years, researchers have developed different versions of attention to op
 
 
 ## ⚡ 3. Running Inference on LUMI (Hardware & Scaling)
-**What is inference?** It is the process of using an already-trained model to generate outputs — answering questions, writing code, summarizing documents. This is what happens when you load a pre-trained model and ask it to generate text.
+**What is inference?** It is the process of using an already-trained model to generate outputs — answering questions, writing code, summarising documents. This is what happens when you load a pre-trained model and ask it to generate text.
 
 ### The Inference Bottleneck: Compute vs. Memory Bandwidth
 To understand inference performance, it is important to distinguish between two different types of data movement, which dictate your overall **Throughput** (the rate at which the model can process and generate tokens):
@@ -101,8 +101,8 @@ When interacting with an LLM, it is a common misconception that the model "remem
 ### Scaling Across GPUs (Parallelism)
 When a model is too large for a single GPU, or when you need to process massive amounts of data simultaneously, you can distribute the workload across multiple GPUs (or GCDs in case of LUMI where 1 GPU consists of 2 GCDs). The three main strategies are:
 
-- **Tensor Parallelism%** (TP): Splits the *individual mathematical operations* of the model across multiple GPUs. Think of this like multiple mechanics working on the exact same car engine simultaneously. All GPUs are active at the exact same time, calculating different pieces of the same token. This requires ultra-fast, constant communication between the GPUs. In vLLM%, you control this by setting a parameter% like `tensor_parallel_size=2`.
-- **Pipeline Parallelism%** (PP): Splits the model *sequentially by its layers*. Think of this like a factory assembly line. For example, GPU 1 holds layers 1–40, and GPU 2 holds layers 41–80. GPU 1 processes a token through its layers and passes the intermediate result to GPU 2 to finish the job. Unlike TP, they are not working on the exact same step simultaneously. This requires much less communication between GPUs but can leave some GPUs idle waiting for their turn ("pipeline bubbles").
+- **Tensor Parallelism%** (TP): Splits the *individual mathematical operations* of the model across multiple GPUs. This is comparable to multiple mechanics working on the exact same car engine simultaneously. All GPUs are active at the exact same time, calculating different pieces of the same token. This requires ultra-fast, constant communication between the GPUs. In vLLM%, you control this by setting a parameter% like `tensor_parallel_size=2`.
+- **Pipeline Parallelism%** (PP): Splits the model *sequentially by its layers*. This resembles a factory assembly line. For example, GPU 1 holds layers 1–40, and GPU 2 holds layers 41–80. GPU 1 processes a token through its layers and passes the intermediate result to GPU 2 to finish the job. Unlike TP, they are not working on the exact same step simultaneously. This requires much less communication between GPUs but can leave some GPUs idle waiting for their turn ("pipeline bubbles").
 - **Data Parallelism%** (DP): Loads a *full, independent replica* of the entire model onto multiple GPUs. There is no splitting of the model here. GPU 1 and GPU 2 each process completely different batches of user prompts at the same time. While this doesn't help if a single model is too large to fit in one GPU's VRAM, it drastically increases how many requests your server can handle per second.
 
 ### Sizing Your Workload
@@ -130,7 +130,7 @@ When running inference, you can adjust several parameters to control how the mod
 - **Max Tokens%**: A hard limit on the number of output tokens the model is allowed to generate in a single response. This acts as a vital safety net to prevent infinite repetitions from consuming all your compute resources.
 
 ### The vLLM Engine and Workflows
-We typically use a library called **vLLM%** to run models. It is the recommended inference engine on LUMI because it natively supports AMD GPUs and includes powerful memory and throughput optimizations (such as *PagedAttention* and *Continuous Batching*) that massively increase how many requests the hardware can handle simultaneously.
+We typically use a library called **vLLM%** to run models. It is the recommended inference engine on LUMI because it natively supports AMD GPUs and includes powerful memory and throughput optimisations (such as *PagedAttention* and *Continuous Batching*) that massively increase how many requests the hardware can handle simultaneously.
 
 There are two main architectural patterns for running inference on a supercomputer:
 - **Offline (Batch) Mode:** The model loads into VRAM, processes a massive dataset of prompts all at once at maximum speed, and shuts down immediately. This is a common pattern for supercomputer jobs, and it is highly efficient for cluster billing.
@@ -142,7 +142,7 @@ There are two main architectural patterns for running inference on a supercomput
 > [👉 LUMI AI Guide: LLM Inference](https://github.com/Lumi-supercomputer/LUMI-AI-Guide/tree/main/10-LLM-inference#readme)
 
 
-## 🎯 4. Customizing Models for Your Data
+## 🎯 4. Customising Models for Your Data
 Pre-trained models are impressive generalists, but what if you need a model that speaks your company's specific domain — legal contracts, medical reports, or proprietary product documentation? 
 
 ### Fine-Tuning: Full vs. PEFT/LoRA
@@ -150,9 +150,9 @@ Pre-trained models are impressive generalists, but what if you need a model that
 
 **Full-Parameter Fine-Tuning.**
 This is the "brute force" approach: you update **every single weight** in the model during training.
-- **When to use:** When you have a large, high-quality dataset and need maximum performance. This approach can fundamentally alter the model's behavior.
+- **When to use:** When you have a large, high-quality dataset and need maximum performance. This approach can fundamentally alter the model's behaviour.
 - **The risk (Catastrophic Forgetting):** Because you are altering the entire model, there is a risk that the model will "forget" its pre-trained general knowledge. For example, if you heavily train a general model exclusively on legal contracts, it might lose its ability to write code or converse in multiple languages.
-- **The cost:** The memory requirement is roughly **3–4× the model size** because you need to store the model weights, the gradients (how much each weight should change), and the optimizer states (the training algorithm's internal bookkeeping). Fine-tuning% a 70B model this way requires enormous GPU resources (available on LUMI).
+- **The cost:** The memory requirement is roughly **3–4× the model size** because you need to store the model weights, the gradients (how much each weight should change), and the optimiser states (the training algorithm's internal bookkeeping). Fine-tuning% a 70B model this way requires enormous GPU resources (available on LUMI).
 
 **PEFT: Parameter-Efficient Fine-Tuning.**
 What if you could get 90% of the benefit at 10% of the cost? **PEFT** methods freeze most of the model's original weights and only train a small number of additional parameters%. The most popular PEFT technique is **LoRA%** (Low-Rank Adaptation). It works by adding small, trainable matrices alongside the model's frozen layers. During training, only these small matrices are updated — the original model remains untouched.
@@ -161,10 +161,10 @@ What if you could get 90% of the benefit at 10% of the cost? **PEFT** methods fr
 - **The savings:** Memory requirements drop dramatically — roughly **1.1–1.2× the model size** instead of 3–4×. This means you can fine-tune% a 70B model on far fewer GCDs than full-parameter training would require.
 - **The trade-off:** The maximum quality ceiling is slightly lower than full fine-tuning%, but for many real-world applications, the difference is negligible.
 
-### Quantization: Doing More with Less
-Another popular technique to reduce resource requirements is **quantization%**, which shrinks the model by reducing the mathematical precision of its weights. You can think of it like rounding a highly precise decimal (such as `3.14159`) down to a shorter version (`3.14`). While you lose a tiny bit of detail, the resulting number takes up significantly less memory. 
+### Quantisation: Reducing Memory Requirements
+Another popular technique to reduce resource requirements is **quantisation%**, which shrinks the model by reducing the mathematical precision of its weights. This process is similar to rounding a highly precise decimal (such as `3.14159`) down to a shorter version (`3.14`). While you lose a tiny bit of detail, the resulting number takes up significantly less memory. 
 
-In LLMs, model weights are typically stored as high-precision 16-bit numbers. Quantization mathematically compresses these into smaller formats, like 8-bit or 4-bit. While this compression degrades the model's reasoning quality, it drastically shrinks the VRAM footprint—enabling you to run massive models on fewer GCDs. Quantization can even be combined with LoRA (called QLoRA) for memory-efficient fine-tuning% on a single node.
+In LLMs, model weights are typically stored as high-precision 16-bit numbers. Quantisation% mathematically compresses these into smaller formats, like 8-bit or 4-bit. While this compression degrades the model's reasoning quality slightly, it drastically shrinks the VRAM footprint—enabling you to run massive models on fewer GCDs. Quantisation% can even be combined with LoRA% (called QLoRA) for memory-efficient fine-tuning% on a single node.
 
 **The LUMI Hardware Caveat (Why it might not be worth it)**
 While quantization% saves VRAM, it is critical to understand the hardware you are running on. The AMD MI250X GPUs on LUMI are heavily optimized for 16-bit or higher floating-point math (FP16, BF16, FP32, etc.). They **do not** have native hardware acceleration for lower precision floating-point numbers (like FP8 or FP4), though integer formats (like INT8) are supported.
@@ -185,7 +185,7 @@ If you want your model to answer questions based on your private data, fine-tuni
 - **Choose RAG** if your data changes frequently, you have a massive library of documents, or you need the model to strictly cite its sources to avoid hallucinations.
 - **Choose Fine-Tuning** if you need the model to learn a completely new format (like a proprietary coding language), adopt a specific corporate tone, or if the relevant context is simply too large to fit into a single prompt.
 
-[👉 Working with LLMs: example scripts for Fine-Tuning, Quantization and RAG](https://docs.csc.fi/support/tutorials/ml-llm/)
+[👉 Working with LLMs: example scripts for Fine-Tuning, Quantisation and RAG](https://docs.csc.fi/support/tutorials/ml-llm/)
 
 
 ## ✅ Summary Checklist
@@ -206,7 +206,7 @@ Q: What are the main advantages of running open-weight models on LUMI instead of
 - [ ] They don't require GPUs to run efficiently.
 - [x] No vendor lock-in or strict API rate limits.
 - [x] Your data is not used for training new models
-> Open-weight models give you full control over your data privacy and scaling capabilities on LUMI's powerful hardware.
+> open-weight models give you full control over your data privacy and scaling capabilities on LUMI's powerful hardware.
 
 ---
 
@@ -223,12 +223,12 @@ Q: Why can standard LLM benchmarks sometimes be misleading when evaluating a mod
 - [ ] They are often written in programming languages the model doesn't understand.
 - [x] The benchmark answers may have been included in the model's training data (Data Contamination).
 - [ ] Benchmarks can only test models with fewer than 100 billion parameters.
-- [x] Researchers might over-optimize the model specifically to score high on those tests.
-> Benchmarks are useful but flawed due to contamination and over-optimization. The best test is always evaluating the model against your specific domain use-case.
+- [x] Researchers might over-optimise the model specifically to score high on those tests.
+> Benchmarks are useful but flawed due to contamination and over-optimisation. The best test is always evaluating the model against your specific domain use-case.
 
 ---
 
-Q: Why can a Mixture of Experts (MoE) model process requests much faster than a Dense model of the same total size?
+Q: Why can a Mixture of Experts (MoE) model process requests much faster than a dense model of the same total size?
 - [ ] Because it has fewer total parameters.
 - [ ] Because it has a simpler attention mechanism.
 - [ ] Because it requires less VRAM to load the model weights.
@@ -301,10 +301,10 @@ Q: Which hardware bottleneck limits the speed at which a model generates output 
 ---
 
 Q: Why is vLLM the recommended inference engine on LUMI? (select all)
-- [x] It uses Continuous Batching to maximize the number of simultaneous requests.
+- [x] It uses Continuous Batching to maximise the number of simultaneous requests.
 - [ ] It requires zero configuration and works completely automatically.
 - [x] It uses PagedAttention to efficiently manage KV Cache memory.
-- [x] It has native, optimized support for AMD GPUs.
+- [x] It has native, optimised support for AMD GPUs.
 > vLLM is the industry standard for high-throughput inference, especially on AMD ROCm hardware, making it perfect for LUMI.
 
 ---
@@ -332,7 +332,7 @@ Q: If you need to process a massive dataset of 1 million documents as quickly as
 - [ ] Server-Client mode (starting a vLLM server and making HTTP requests).
 - [ ] Interactive terminal mode.
 - [x] Offline (Batch) inference (loading the model directly in a Python script).
-> Offline batch inference is the most efficient way to maximize GPU throughput for processing massive datasets in the background.
+> Offline batch inference is the most efficient way to maximise GPU throughput for processing massive datasets in the background.
 
 ---
 
@@ -363,12 +363,12 @@ Q: How does LoRA (Low-Rank Adaptation) make fine-tuning much cheaper and faster 
 
 ---
 
-Q: What is a known performance caveat regarding Quantization (specifically 8-bit / FP8) on LUMI's AMD MI250X GPUs?
-- [ ] The hardware cannot run quantized models at all.
+Q: What is a known performance caveat regarding Quantisation (specifically FP4, FP8) on LUMI's AMD MI250X GPUs?
+- [ ] The hardware cannot run quantised models at all.
 - [ ] It prevents the model from generating text in English.
-- [x] The MI250X lacks native hardware support for FP8 math, causing FP8 models to run significantly slower than standard 16-bit models.
-- [ ] Quantization increases the VRAM requirement of the model.
-> While quantization saves VRAM, the lack of native FP8/INT8 math units on the MI250X means the GPU must emulate the math, significantly reducing processing speed.
+- [x] The MI250X lacks native hardware support for FP8, meaning FP8 models run much slower, whereas INT4 formats (like AWQ) run efficiently.
+- [ ] Quantisation increases the VRAM requirement of the model.
+> While INT4 quantisation (AWQ/GPTQ) works excellently by de-quantising to 16-bit on the fly, native FP8 math is not supported on the MI250X and must be emulated, reducing speed.
 
 ---
 
