@@ -22,7 +22,8 @@ other percent sign in your text is left untouched.
 | Term | Definition |
 |:-----|:-----------|
 | **open-weight** | Models whose underlying weights are publicly available, allowing users to run, modify, and fine-tune them privately. |
-| **parameter** | The numerical values (weights) a model learned during training, acting as its "memory" of patterns. |
+| **parameters** | The numerical values (weights) a model learned during training, acting as its "memory" of patterns. |
+| **parameter** | A numerical value (weight) a model learned during training, acting as a piece of its "memory" of patterns. |
 | **Base** | A raw model trained solely to predict the next word, without any instruction-following capabilities. |
 | **Instruct** | A model that has been further trained (aligned) to follow instructions, answer questions, and act as a conversational assistant. |
 | **Alignment** | The process of training a Base model to behave safely and follow instructions, often using techniques like DPO. |
